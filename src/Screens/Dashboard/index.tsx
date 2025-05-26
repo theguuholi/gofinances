@@ -1,4 +1,4 @@
-import { Container, Header, Photo, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
+import { Container, Header, Icon, Photo, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
 
 const Dashboard = () => {
     return (
@@ -13,6 +13,8 @@ const Dashboard = () => {
                             <UserName>Gustavo</UserName>
                         </User>
                     </UserInfo>
+
+                    <Icon name="power" />
                 </UserContainer>
             </Header>
         </Container>
