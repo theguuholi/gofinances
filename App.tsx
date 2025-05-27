@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'styled-components/native';
-import Dashboard from './src/Screens/Dashboard';
+import Dashboard from './src/screens/Dashboard';
 import theme from './src/global/styles/theme';
 import { Poppins_400Regular, Poppins_500Medium, Poppins_700Bold, useFonts } from '@expo-google-fonts/poppins';
 import AppLoading from 'expo-app-loading';
