@@ -1,8 +1,29 @@
 import HighlightCard from "../../components/HighlightCard";
 import TransactionCard from "../../components/TransactionCard";
-import { Container, Header, HighlightCards, Icon, Photo, Title, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
+import { Container, Header, HighlightCards, Icon, Photo, Title, TransactionList, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
 
 const Dashboard = () => {
+    var transactions = [
+        {
+            title: 'Desenvolvimento de site',
+            amount: 'R$ 12.000,00',
+            category: { name: 'Vendas', icon: 'dollar-sign' },
+            date: '13/04/2024'
+        },
+        {
+            title: 'Hamburgueria Pizzy',
+            amount: 'R$ 59,00',
+            category: { name: 'Alimentação', icon: 'coffee' },
+            date: '10/04/2024'
+        },
+        {
+            title: 'Aluguel do apartamento',
+            amount: 'R$ 1.200,00',
+            category: { name: 'Casa', icon: 'shopping-bag' },
+            date: '27/03/2024'
+        }
+    ]
+
     return (
         <Container>
             <Header>
@@ -40,7 +61,12 @@ const Dashboard = () => {
 
             <Transactions>
                 <Title>Listagem</Title>
-                <TransactionCard />
+
+                <TransactionList 
+                    data={transactions}
+                    keyExtractor={(item) => item.title}
+                    renderItem={({ item }) => <TransactionCard data={item} />}
+                />
             </Transactions>
         </Container>
     )

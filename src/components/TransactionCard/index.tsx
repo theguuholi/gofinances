@@ -1,20 +1,37 @@
 import { Amount, Category, CategoryName, Container, Footer, Icon, Title, Date } from "./styles";
 
+interface Category {
+    name: string;
+    icon: string;
+}
 
-const TransactionCard = () => {
+interface Data {
+    title: string;
+    amount: string;
+    category: Category;
+    date: string;
+}
+
+interface Props {
+    data: Data
+}
+
+const TransactionCard = ({ data }: Props) => {
+    const { title, amount, category, date } = data;
+
     return (
         <Container>
-            <Title>Software Development</Title>
-            <Amount>R$ 95.000,00</Amount>
+            <Title>{title}</Title>
+            <Amount>{amount}</Amount>
 
             <Footer>
                 <Category>
-                    <Icon name="dollar-sign" />
-                    <CategoryName>Vendas</CategoryName>
+                    <Icon name={category.icon} />
+                    <CategoryName>{category.name}</CategoryName>
                 </Category>
-                <Date>13/04/2025</Date>
+                <Date>{date}</Date>
             </Footer>
         </Container>
-    )
-}
+    );
+};
 export default TransactionCard;
