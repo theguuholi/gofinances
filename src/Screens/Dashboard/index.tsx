@@ -1,5 +1,6 @@
 import HighlightCard from "../../components/HighlightCard";
-import { Container, Header, HighlightCards, Icon, Photo, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
+import TransactionCard from "../../components/TransactionCard";
+import { Container, Header, HighlightCards, Icon, Photo, Title, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
 
 const Dashboard = () => {
     return (
@@ -36,6 +37,11 @@ const Dashboard = () => {
                     amount={"R$ 16.300,00"}
                     lastTransaction={"01 a 16 de abril"} />
             </HighlightCards>
+
+            <Transactions>
+                <Title>Listagem</Title>
+                <TransactionCard />
+            </Transactions>
         </Container>
     )
 }
