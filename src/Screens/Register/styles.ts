@@ -35,3 +35,7 @@ export const Title = styled.Text`
   export const Fields = styled.View`
 
   `;
+  export const TransactionsType = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+  `;

@@ -1,9 +1,16 @@
-import { Text } from "react-native";
-import { Container, Fields, Form, Header, Title } from "./styles";
+import { Container, Fields, Form, Header, Title, TransactionsType } from "./styles";
 import Input from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
+import TransactionTypeButton from "../../components/Form/TransactionTypeButton";
+import { useState } from "react";
 
 const Register = () => {
+    const [transactionType, setTransactionType] = useState("");
+
+    function handleTransactionTypeSelect(type: "up" | "down"): void {
+        setTransactionType(type);
+    }
+
     return (
         <Container>
             <Header>
@@ -15,6 +22,20 @@ const Register = () => {
                 <Fields>
                     <Input placeholder="Nome" />
                     <Input placeholder="E-mail" />
+
+                    <TransactionsType>
+                        <TransactionTypeButton
+                            isActive={transactionType === "up"}
+                            title="Income"
+                            type="up"
+                            onPress={() => handleTransactionTypeSelect("up")} />
+                        <TransactionTypeButton
+                            isActive={transactionType === "down"}
+                            title="Outcome"
+                            type="down"
+                            onPress={() => handleTransactionTypeSelect("down")} />
+                    </TransactionsType>
+
                 </Fields>
 
                 <Button title="Enviar" />
