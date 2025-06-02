@@ -2,10 +2,11 @@ import { Container, Category, Icon } from "./styles";
 
 interface Props {
     title: string;
-}
-const CategorySelect = ({title}: Props) => {
+    onPress?: () => void;
+} 
+const CategorySelectButton = ({title, onPress}: Props) => {
     return(
-            <Container>
+            <Container onPress={onPress}>
                 <Category>
                     {title}
                 </Category>
@@ -14,4 +15,4 @@ const CategorySelect = ({title}: Props) => {
     )
 
 };
-export default CategorySelect;
+export default CategorySelectButton;
