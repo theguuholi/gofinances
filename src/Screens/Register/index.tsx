@@ -3,6 +3,7 @@ import Input from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
 import TransactionTypeButton from "../../components/Form/TransactionTypeButton";
 import { useState } from "react";
+import CategorySelect from "../../components/Form/CategorySelect";
 
 const Register = () => {
     const [transactionType, setTransactionType] = useState("");
@@ -16,7 +17,6 @@ const Register = () => {
             <Header>
                 <Title>Cadastro</Title>
             </Header>
-
 
             <Form>
                 <Fields>
@@ -36,6 +36,7 @@ const Register = () => {
                             onPress={() => handleTransactionTypeSelect("down")} />
                     </TransactionsType>
 
+                    <CategorySelect title="Categoria" />
                 </Fields>
 
                 <Button title="Enviar" />
