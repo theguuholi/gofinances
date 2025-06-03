@@ -1,10 +1,9 @@
 import { Container, Fields, Form, Header, Title, TransactionsType } from "./styles";
-import Input from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
 import TransactionTypeButton from "../../components/Form/TransactionTypeButton";
 import { useState } from "react";
 import CategorySelectButton from "../../components/Form/CategorySelectButton";
-import { Keyboard, Modal, TouchableWithoutFeedback } from "react-native";
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from "react-native";
 import CategorySelect from "../CategorySelect";
 import InputForm from "../../components/Form/InputForm";
 import { useForm } from "react-hook-form";
@@ -19,6 +18,13 @@ const schema = yup.object().shape({
         .required("Preço é obrigatório"),
 });
 
+interface FormData {
+    name: string;
+    amount: string;
+    transactionType: "up" | "down";
+    category: string;
+}
+
 const Register = () => {
     const [transactionType, setTransactionType] = useState("");
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -27,7 +33,7 @@ const Register = () => {
         name: "Categoria",
     });
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(schema)
     });
 
@@ -45,11 +51,11 @@ const Register = () => {
 
     function handleRegister(form: FormData): void {
         if (!transactionType) {
-            return alert("Selecione o tipo da transação");
+            return Alert.alert("Selecione o tipo da transação");
         }
 
         if (category.key === "category") {
-            return alert("Selecione a categoria");
+            return Alert.alert("Selecione a categoria");
         }
 
         const data = {
