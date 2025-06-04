@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import HighlightCard from "../../components/HighlightCard";
 import TransactionCard, { TransactionCardData } from "../../components/TransactionCard";
 import { Container, Header, HighlightCards, Icon, LogoutButton, Photo, Title, TransactionList, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 export interface DataListProps extends TransactionCardData {
     id: string;
@@ -41,6 +42,10 @@ const Dashboard = () => {
     useEffect(() => {
         loadTransactions()
     }, []);
+
+    useFocusEffect(useCallback(() => {
+        loadTransactions()
+    }, []));
 
     return (
         <Container>
