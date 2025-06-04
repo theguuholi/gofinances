@@ -20,9 +20,7 @@ const schema = yup.object().shape({
 
 interface FormData {
     name: string;
-    amount: string;
-    transactionType: "up" | "down";
-    category: string;
+    amount: number;
 }
 
 const Register = () => {
@@ -36,6 +34,8 @@ const Register = () => {
     const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(schema)
     });
+
+    console.log("errors", errors);
 
     function handleTransactionTypeSelect(type: "up" | "down"): void {
         setTransactionType(type);
@@ -85,10 +85,11 @@ const Register = () => {
                             control={control}
                             autoCapitalize="characters"
                             autoCorrect={false}
-                            error={errors.name?.message}
+                            error={errors.name && errors.name.message}
 
                         />
-                        <InputForm placeholder="Preco" name="amount" control={control} keyboardType="numeric" error={errors.amount?.message}
+                        <InputForm placeholder="Preco" name="amount" control={control} keyboardType="numeric"
+                            error={errors.amount && errors.amount.message}
                         />
 
                         <TransactionsType>
