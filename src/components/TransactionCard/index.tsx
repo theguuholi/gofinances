@@ -1,15 +1,11 @@
+import { categories } from "../../utils/categories";
 import { Amount, Category, CategoryName, Container, Footer, Icon, Title, Date } from "./styles";
-
-interface Category {
-    name: string;
-    icon: string;
-}
 
 export interface TransactionCardData {
     type: 'positive' | 'negative';
-    title: string;
+    name: string;
     amount: string;
-    category: Category;
+    category: string;
     date: string;
 }
 
@@ -18,20 +14,21 @@ interface Props {
 }
 
 const TransactionCard = ({ data }: Props) => {
-    const { title, amount, category, date, type } = data;
+    const { name, amount, category, date, type } = data;
+    const categorySelected = categories.find(item => item.key === category) || { name: 'Categoria não encontrada', icon: 'alert-circle' };
 
     return (
         <Container>
-            <Title>{title}</Title>
+            <Title>{name}</Title>
             <Amount type={type}>
                 {type === 'negative' && '- '}
                 {amount}
-                </Amount>
+            </Amount>
 
             <Footer>
                 <Category>
-                    <Icon name={category.icon} />
-                    <CategoryName>{category.name}</CategoryName>
+                    <Icon name={categorySelected.icon} />
+                    <CategoryName>{categorySelected.name}</CategoryName>
                 </Category>
                 <Date>{date}</Date>
             </Footer>

@@ -1,38 +1,46 @@
+import { useEffect, useState } from "react";
 import HighlightCard from "../../components/HighlightCard";
 import TransactionCard, { TransactionCardData } from "../../components/TransactionCard";
 import { Container, Header, HighlightCards, Icon, LogoutButton, Photo, Title, TransactionList, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface DataListProps extends TransactionCardData {
     id: string;
 }
 
 const Dashboard = () => {
-    var transactions: DataListProps[] = [
-        {
-            id: '1',
-            type: 'positive',
-            title: 'Desenvolvimento de site',
-            amount: 'R$ 12.000,00',
-            category: { name: 'Vendas', icon: 'dollar-sign' },
-            date: '13/04/2024'
-        },
-        {
-            id: '2',
-            type: 'negative',
-            title: 'Hamburgueria Pizzy',
-            amount: 'R$ 59,00',
-            category: { name: 'Alimentação', icon: 'coffee' },
-            date: '10/04/2024'
-        },
-        {
-            id: '3',
-            type: 'negative',
-            title: 'Aluguel do apartamento',
-            amount: 'R$ 1.200,00',
-            category: { name: 'Casa', icon: 'shopping-bag' },
-            date: '27/03/2024'
+    const [data, setData] = useState<DataListProps[]>([]);
+
+    const loadTransactions = async () => {
+        const dataKey = "@gofinances:transactions";
+        const response = await AsyncStorage.getItem(dataKey);
+        const transactions = response ? JSON.parse(response) : [];
+        const formattedTransactions: DataListProps[] = transactions.map((item: DataListProps) => {
+            const amount = Number(item.amount).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+
+            const formattedDate = Intl.DateTimeFormat('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit'
+            }).format(new Date(item.date));
+
+            return {
+                ...item,
+                amount,
+                date: formattedDate
+            };
         }
-    ];
+        );
+        console.log("Formatted Transactions: ", formattedTransactions);
+        setData(formattedTransactions);
+    }
+
+    useEffect(() => {
+        loadTransactions()
+    }, []);
 
     return (
         <Container>
@@ -75,7 +83,7 @@ const Dashboard = () => {
                 <Title>Listagem</Title>
 
                 <TransactionList
-                    data={transactions}
+                    data={data}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => <TransactionCard data={item} />}
                 />

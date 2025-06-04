@@ -4,6 +4,8 @@ import { Poppins_400Regular, Poppins_500Medium, Poppins_700Bold, useFonts } from
 import AppLoading from 'expo-app-loading';
 import AppRoutes from './src/routes/app.routes';
 import { NavigationContainer } from '@react-navigation/native';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
