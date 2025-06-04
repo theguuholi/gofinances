@@ -10,14 +10,13 @@ interface Props extends TextInputProps {
 }
 
 const InputForm = ({ control, name, error, ...rest }: Props) => {
-    console.log("error", error)
     return (
         <Container>
             <Controller control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <Input
                         onChange={onChange}
-                        value={value}
+                        value={value === undefined || value === null ? "" : value}
                         {...rest}
                     />
                 )}
