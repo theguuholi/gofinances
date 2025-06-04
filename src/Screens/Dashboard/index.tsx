@@ -1,6 +1,6 @@
 import HighlightCard from "../../components/HighlightCard";
 import TransactionCard, { TransactionCardData } from "../../components/TransactionCard";
-import { Container, Header, HighlightCards, Icon, Photo, Title, TransactionList, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
+import { Container, Header, HighlightCards, Icon, LogoutButton, Photo, Title, TransactionList, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
 
 export interface DataListProps extends TransactionCardData {
     id: string;
@@ -47,7 +47,9 @@ const Dashboard = () => {
                         </User>
                     </UserInfo>
 
-                    <Icon name="power" />
+                    <LogoutButton onPress={() => { console.log("Logout") }}>
+                        <Icon name="power" />
+                    </LogoutButton>
                 </UserContainer>
             </Header>
 

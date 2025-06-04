@@ -8,7 +8,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 const { Navigator, Screen } = createBottomTabNavigator();
 
 const AppRoutes = () => {
-    const theme = useTheme()
+    const theme = useTheme();
     return (
         <Navigator
             screenOptions={{

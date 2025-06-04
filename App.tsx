@@ -4,6 +4,7 @@ import { Poppins_400Regular, Poppins_500Medium, Poppins_700Bold, useFonts } from
 import AppLoading from 'expo-app-loading';
 import AppRoutes from './src/routes/app.routes';
 import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,9 +19,17 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>
+      <GestureHandlerRootView
+        style={{
+          flex: 1,
+          backgroundColor: theme.colors.background,
+        }}>
+
+        <NavigationContainer>
+          <AppRoutes />
+        </NavigationContainer>
+      </GestureHandlerRootView>
+
     </ThemeProvider>
   )
 }
