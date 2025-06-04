@@ -1,7 +1,7 @@
 import { Container, Fields, Form, Header, Title, TransactionsType } from "./styles";
 import Button from "../../components/Form/Button";
 import TransactionTypeButton from "../../components/Form/TransactionTypeButton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CategorySelectButton from "../../components/Form/CategorySelectButton";
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from "react-native";
 import CategorySelect from "../CategorySelect";
@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 const schema = yup.object().shape({
     name: yup.string().required("Nome é obrigatório"),
@@ -33,6 +34,8 @@ const Register = () => {
         key: "category",
         name: "Categoria",
     });
+
+    const navigation = useNavigation();
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(schema)
@@ -83,23 +86,13 @@ const Register = () => {
                 name: "Categoria",
             });
             reset();
-            Alert.alert("Cadastrado com sucesso!");
+            console.log("Transação cadastrada com sucesso");
+            navigation.navigate("Listagem");
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível cadastrar");
         }
     }
-
-    const loadData = async () => {
-        const data = await AsyncStorage.getItem(dataKey);
-        const transactions = JSON.parse(data!);
-        console.log("Transactions loaded:", transactions);
-    }
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
