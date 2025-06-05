@@ -4,15 +4,29 @@ import TransactionCard, { TransactionCardData } from "../../components/Transacti
 import { Container, Header, HighlightCards, Icon, LogoutButton, Photo, Title, TransactionList, Transactions, User, UserContainer, UserGreeting, UserInfo, UserName } from "./style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+import { set } from "react-hook-form";
 
 export interface DataListProps extends TransactionCardData {
     id: string;
 }
 
+interface HighlightProps {
+    amount: string;
+}
+
+interface HighlightData {
+    entries: HighlightProps;
+    expensive: HighlightProps;
+    total: HighlightProps;
+}
+
 const Dashboard = () => {
-    const [data, setData] = useState<DataListProps[]>([]);
+    const [transactions, setTransactions] = useState<DataListProps[]>([]);
+    const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
     const loadTransactions = async () => {
+        let entriesTotal = 0;
+        let expensiveTotal = 0;
         const dataKey = "@gofinances:transactions";
         const response = await AsyncStorage.getItem(dataKey);
         const transactions = response ? JSON.parse(response) : [];
@@ -21,6 +35,12 @@ const Dashboard = () => {
                 style: 'currency',
                 currency: 'BRL'
             });
+
+            if (item.type === 'positive') {
+                entriesTotal += Number(item.amount);
+            } else {
+                expensiveTotal += Number(item.amount);
+            }
 
             const formattedDate = Intl.DateTimeFormat('pt-BR', {
                 day: '2-digit',
@@ -35,8 +55,33 @@ const Dashboard = () => {
             };
         }
         );
+
+        const  total = entriesTotal - expensiveTotal;
         console.log("Formatted Transactions: ", formattedTransactions);
-        setData(formattedTransactions);
+        setHighlightData({
+            entries: {
+                amount: entriesTotal.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                })
+            },
+            expensive: {
+                amount: expensiveTotal.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                })
+            },
+            total: {
+                amount: total.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                })
+            }
+        });
+
+        console.log("Highlight Data: ", highlightData);
+        setTransactions(formattedTransactions);
+
     }
 
     useEffect(() => {
@@ -70,17 +115,17 @@ const Dashboard = () => {
                 <HighlightCard
                     type="up"
                     title={"Entradas"}
-                    amount={"R$ 30.000,00"}
+                    amount={highlightData?.entries?.amount}
                     lastTransaction={"Ultima entrada dia 13 de abril"} />
                 <HighlightCard
                     type="down"
                     title={"Saidas"}
-                    amount={"R$ 1.259,00"}
+                    amount={highlightData?.expensive?.amount}
                     lastTransaction={"Ultima saida dia 13 de abril"} />
                 <HighlightCard
                     type="total"
                     title={"Total"}
-                    amount={"R$ 16.300,00"}
+                    amount={highlightData?.total?.amount}
                     lastTransaction={"01 a 16 de abril"} />
             </HighlightCards>
 
@@ -88,9 +133,9 @@ const Dashboard = () => {
                 <Title>Listagem</Title>
 
                 <TransactionList
-                    data={data}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <TransactionCard data={item} />}
+                    data={transactions}
+                    keyExtractor={(item: { id: any; }) => item.id}
+                    renderItem={({ item }: { item: DataListProps }) => <TransactionCard data={item} />}
                 />
             </Transactions>
         </Container>
