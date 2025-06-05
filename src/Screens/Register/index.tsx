@@ -27,7 +27,7 @@ interface FormData {
 }
 
 const Register = () => {
-    const dataKey = "@gofinances:transactions";
+    const dataKey = "@gofinances:transactions";    
     const [transactionType, setTransactionType] = useState("");
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [category, setCategory] = useState({
