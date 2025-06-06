@@ -12,15 +12,17 @@ interface Props extends TextInputProps {
 const InputForm = ({ control, name, error, ...rest }: Props) => {
     return (
         <Container>
-            <Controller control={control}
+            <Controller
+                control={control}
+                name={name}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <Input
-                        onChange={onChange}
-                        value={value === undefined || value === null ? "" : value}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value === undefined || value === null ? "" : String(value)}
                         {...rest}
                     />
                 )}
-                name={name}
             />
 
             {error && <Error>{error}</Error>}

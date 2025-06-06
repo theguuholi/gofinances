@@ -86,7 +86,6 @@ const Register = () => {
                 name: "Categoria",
             });
             reset();
-            console.log("Transação cadastrada com sucesso");
             navigation.navigate("Listagem");
         } catch (error) {
             console.log(error);
