@@ -6,10 +6,11 @@ const formatTransactions = (transactions: TransactionDTO[]) => {
     let entriesTotal = 0;
     let expensiveTotal = 0;
     const formattedTransactions = transactions.map((item: TransactionDTO) => {
-        const amount = Number(item.amount).toLocaleString('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        });
+        const amount = Number(item.amount)
+        // .toLocaleString('pt-BR', {
+        //     style: 'currency',
+        //     currency: 'BRL'
+        // });
 
         if (item.type === 'positive') {
             entriesTotal += Number(item.amount);

@@ -22,7 +22,7 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;;
   `;
 
-  export const Form = styled.View`
+export const Form = styled.View`
     flex: 1;
 
     width: 100%;
@@ -31,3 +31,9 @@ export const Title = styled.Text`
 
     justify-content: space-between;
   `;
+
+export const Content = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    flex: 1, padding: 24
+  }
+})``;

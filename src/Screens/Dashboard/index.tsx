@@ -62,7 +62,6 @@ const Dashboard = () => {
         const filtered = transactions
             .filter((transaction: TransactionDTO) => transaction.type === type);
 
-        console.log("filtered", filtered);
         if (filtered.length === 0) return "Nenhuma transação";
 
         const lastTransaction = new Date(
