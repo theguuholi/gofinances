@@ -6,6 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useTheme } from "@react-navigation/native";
 import { set } from "react-hook-form";
 import { ActivityIndicator } from "react-native";
+import { listTransactions } from "../../storage/TransactionStorage";
+import { TransactionDTO } from "../../dtos/TransactionDTO";
 
 export interface DataListProps extends TransactionCardData {
     id: string;
@@ -27,37 +29,6 @@ const Dashboard = () => {
     const theme = useTheme();
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
     const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
-
-    const formatTransactions = (transactions: DataListProps[]) => {
-        let entriesTotal = 0;
-        let expensiveTotal = 0;
-        const formattedTransactions = transactions.map((item: DataListProps) => {
-            const amount = Number(item.amount).toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL'
-            });
-
-            if (item.type === 'positive') {
-                entriesTotal += Number(item.amount);
-            } else {
-                expensiveTotal += Number(item.amount);
-            }
-
-            const formattedDate = Intl.DateTimeFormat('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: '2-digit'
-            }).format(new Date(item.date));
-
-            return {
-                ...item,
-                amount,
-                date: formattedDate
-            };
-        }
-        );
-        return { formattedTransactions, entriesTotal, expensiveTotal };
-    }
 
     const createHighlighData = (entriesTotal: number, expensiveTotal: number, lastEntryTransaction: string, lastExpenseTransaction: string, lastTotalTransaction: string) => {
         const total = entriesTotal - expensiveTotal;
@@ -89,12 +60,13 @@ const Dashboard = () => {
 
     const getLastTransactionsDate = (transactions: any[], type: string) => {
         const filtered = transactions
-            .filter((transaction: DataListProps) => transaction.type === type);
+            .filter((transaction: TransactionDTO) => transaction.type === type);
 
+        console.log("filtered", filtered);
         if (filtered.length === 0) return "Nenhuma transação";
 
         const lastTransaction = new Date(
-            Math.max.apply(Math, filtered.map((transaction: DataListProps) =>
+            Math.max.apply(Math, filtered.map((transaction: TransactionDTO) =>
                 new Date(transaction.date).getTime()
             ))
         );
@@ -105,12 +77,9 @@ const Dashboard = () => {
     };
 
     const loadTransactions = async () => {
-        const dataKey = "@gofinances:transactions";
-        const response = await AsyncStorage.getItem(dataKey);
-        const transactionResponse = response ? JSON.parse(response) : [];
-        const { formattedTransactions, entriesTotal, expensiveTotal } = formatTransactions(transactionResponse);
-        const lastEntryTransaction = getLastTransactionsDate(transactionResponse, 'positive');
-        const lastExpenseTransaction = getLastTransactionsDate(transactionResponse, 'negative');
+        const { formattedTransactions, entriesTotal, expensiveTotal } = await listTransactions();
+        const lastEntryTransaction = getLastTransactionsDate(formattedTransactions, 'positive');
+        const lastExpenseTransaction = getLastTransactionsDate(formattedTransactions, 'negative');
 
         const lastTransaction = new Date(
             Math.max(...formattedTransactions.map((transaction: DataListProps) =>
@@ -120,7 +89,6 @@ const Dashboard = () => {
         
         const lastTotalTransaction = `01 a ${lastTransaction.toLocaleString('pt-BR', { month: 'long' })}`;
         const highLightDataCreated = createHighlighData(entriesTotal, expensiveTotal, lastEntryTransaction, lastExpenseTransaction, lastTotalTransaction);
-        console.log("highLightDataCreated", highLightDataCreated);
         setHighlightData(highLightDataCreated);
 
         setTransactions(formattedTransactions);
