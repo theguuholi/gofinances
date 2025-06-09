@@ -27,7 +27,8 @@ const formatTransactions = (transactions: TransactionDTO[]) => {
         return {
             ...item,
             amount,
-            date: formattedDate
+            date: formattedDate,
+            formattedDate: new Date(item.date)
         };
     }
     );

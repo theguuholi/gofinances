@@ -1,11 +1,14 @@
 import HistoryCard from "../../components/HistoryCard";
-import { ChartContainer, Container, Content, Header, Title } from "./styles"
+import { ChartContainer, Container, Content, Header, Month, MonthSelect, MonthSelectButton, SelectIcon, Title } from "./styles"
 import React, { useEffect, useState } from "react";
 import { listTransactions } from "../../storage/TransactionStorage";
 import { categories } from "../../utils/categories";
 import { VictoryPie } from "victory-pie";
 import theme from "../../global/styles/theme";
 import { RFValue } from "react-native-responsive-fontsize";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface CategoryData {
     name: string;
@@ -16,12 +19,33 @@ interface CategoryData {
 }
 
 const Resume = () => {
+    const [currentDate, setCurrentDate] = useState(new Date());
     const [totalByCategory, setTotalByCategory] = useState<CategoryData[]>([]);
+
+    const handleMonthSelect = (action: 'next' | 'previous') => {
+        if (action === 'next') {
+            setCurrentDate(prevDate => {
+                const date = new Date(prevDate);
+                date.setMonth(date.getMonth() + 1);
+                return date;
+            });
+        } else {
+            setCurrentDate(prevDate => {
+                const date = new Date(prevDate);
+                date.setMonth(date.getMonth() - 1);
+                return date;
+            });
+        }
+    }
 
     const loadData = async () => {
         const { formattedTransactions } = await listTransactions();
         const transactions = formattedTransactions;
-        const expenses = transactions.filter((transaction: { type: string; }) => transaction.type === 'negative')
+        const expenses = transactions.filter((transaction: { type: string; formattedDate: Date; }) =>
+            transaction.type === 'negative' &&
+            transaction.formattedDate.getMonth() === currentDate.getMonth() &&
+            transaction.formattedDate.getFullYear() === currentDate.getFullYear()
+        )
         const expensesTotal = expenses.reduce((sum: number, expense: { amount: number }) => sum + Number(expense.amount), 0);
 
         const totalByCategory: CategoryData[] = categories
@@ -51,8 +75,9 @@ const Resume = () => {
     }
 
     useEffect(() => {
+        console.log(currentDate);
         loadData();
-    }, []);
+    }, [currentDate]);
 
     return (
         <Container>
@@ -60,7 +85,24 @@ const Resume = () => {
                 <Title>Resumo por categoria</Title>
             </Header>
 
-            <Content>
+            <Content
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingHorizontal: 24,
+                    paddingBottom: useBottomTabBarHeight()
+                }}
+            >
+                <MonthSelect>
+                    <MonthSelectButton onPress={() => handleMonthSelect('previous')}>
+                        <SelectIcon name="chevron-left" />
+                    </MonthSelectButton>
+
+                    <Month>{format(currentDate, "MMMM yyyy", { locale: ptBR })}</Month>
+
+                    <MonthSelectButton onPress={() => handleMonthSelect('next')}>
+                        <SelectIcon name="chevron-right" />
+                    </MonthSelectButton>
+                </MonthSelect>
                 <ChartContainer>
                     <VictoryPie
                         data={totalByCategory}
