@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StatusBar } from 'react-native';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -41,6 +42,7 @@ export default function App() {
           backgroundColor: theme.colors.background,
         }}>
         <NavigationContainer>
+          <StatusBar barStyle="light-content" />
           <AppRoutes />
         </NavigationContainer>
       </GestureHandlerRootView>
