@@ -9,6 +9,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'react-native';
+import SignIn from './src/Screens/SignIn';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -36,7 +37,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GestureHandlerRootView
+      <SignIn />
+      {/* <GestureHandlerRootView
         style={{
           flex: 1,
           backgroundColor: theme.colors.background,
@@ -45,7 +47,7 @@ export default function App() {
           <StatusBar barStyle="light-content" />
           <AppRoutes />
         </NavigationContainer>
-      </GestureHandlerRootView>
+      </GestureHandlerRootView> */}
     </ThemeProvider>
   )
 }
