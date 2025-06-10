@@ -1,6 +1,7 @@
-import { Container, Footer, Header, SignInTitle, Title, TitleWrapper } from "./styles";
+import { Container, Footer, FooterWrapper, Header, SignInTitle, Title, TitleWrapper } from "./styles";
 import React from "react";
 import { Text } from "react-native";
+import SignInSocialButton from "../../components/SigninSocialButton";
 
 const SignIn = () => {
     return (
@@ -23,6 +24,14 @@ const SignIn = () => {
             </Header>
 
             <Footer>
+                <FooterWrapper>
+                    <SignInSocialButton
+                        title="Entrar com Google"
+                    />
+                    <SignInSocialButton
+                        title="Entrar com Apple"
+                    />
+                </FooterWrapper>
             </Footer>
         </Container>
     )
