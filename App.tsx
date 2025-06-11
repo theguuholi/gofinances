@@ -2,15 +2,11 @@ import { ThemeProvider } from 'styled-components/native';
 import theme from './src/global/styles/theme';
 import { Poppins_400Regular, Poppins_500Medium, Poppins_700Bold, useFonts } from '@expo-google-fonts/poppins';
 import * as SplashScreen from 'expo-splash-screen';
-import { useCallback, useEffect } from 'react';
-import AppRoutes from './src/routes/app.routes';
-import { NavigationContainer } from '@react-navigation/native';
+import { useEffect } from 'react';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StatusBar } from 'react-native';
 import SignIn from './src/Screens/SignIn';
-import { AuthContext } from './src/AuthContext';
+import { AuthProvider } from './src/hooks/auth';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -38,9 +34,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AuthContext.Provider value={{name: "abobora"}}>
+      <AuthProvider>
         <SignIn />
-      </AuthContext.Provider>
+      </AuthProvider>
       {/* <GestureHandlerRootView
         style={{
           flex: 1,

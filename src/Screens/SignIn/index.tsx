@@ -2,11 +2,11 @@ import { Container, Footer, FooterWrapper, Header, SignInTitle, Title, TitleWrap
 import React, { useContext } from "react";
 import { Text } from "react-native";
 import SignInSocialButton from "../../components/SigninSocialButton";
-import { AuthContext } from "../../AuthContext";
+import { useAuth } from "../../hooks/auth";
 
 const SignIn = () => {
-    const data = useContext(AuthContext);
-    console.log("abobora", data);
+    const data = useAuth();
+    console.log("a", data.user);
     return (
         <Container>
             <Header>
