@@ -5,7 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
-import { AuthProvider } from './src/hooks/auth';
+import { AuthProvider, useAuth } from './src/hooks/auth';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Routes from './src/routes';
 import { StatusBar } from 'react-native';
@@ -21,6 +21,7 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold
   });
+  const { userStorageLoading } = useAuth();
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -30,7 +31,7 @@ export default function App() {
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || userStorageLoading) {
     return null;
   }
 

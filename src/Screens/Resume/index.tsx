@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 interface CategoryData {
     name: string;
@@ -22,6 +23,7 @@ interface CategoryData {
 
 const Resume = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const { user } = useAuth();
     const [currentDate, setCurrentDate] = useState(new Date());
     const [totalByCategory, setTotalByCategory] = useState<CategoryData[]>([]);
 
@@ -40,10 +42,11 @@ const Resume = () => {
                 return date;
             });
         }
+        setIsLoading(true);
     }
 
     const loadData = async () => {
-        const { formattedTransactions } = await listTransactions();
+        const { formattedTransactions } = await listTransactions(user.id);
         const transactions = formattedTransactions;
         const expenses = transactions.filter((transaction: { type: string; formattedDate: Date; }) =>
             transaction.type === 'negative' &&

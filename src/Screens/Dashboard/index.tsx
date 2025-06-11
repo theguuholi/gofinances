@@ -8,6 +8,7 @@ import { set } from "react-hook-form";
 import { ActivityIndicator } from "react-native";
 import { listTransactions } from "../../storage/TransactionStorage";
 import { TransactionDTO } from "../../dtos/TransactionDTO";
+import { useAuth } from "../../hooks/auth";
 
 export interface DataListProps extends TransactionCardData {
     id: string;
@@ -29,6 +30,7 @@ const Dashboard = () => {
     const theme = useTheme();
     const [transactions, setTransactions] = useState<DataListProps[]>([]);
     const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
+    const { signOut, user } = useAuth();
 
     const createHighlighData = (entriesTotal: number, expensiveTotal: number, lastEntryTransaction: string, lastExpenseTransaction: string, lastTotalTransaction: string) => {
         const total = entriesTotal - expensiveTotal;
@@ -76,7 +78,7 @@ const Dashboard = () => {
     };
 
     const loadTransactions = async () => {
-        const { formattedTransactions, entriesTotal, expensiveTotal } = await listTransactions();
+        const { formattedTransactions, entriesTotal, expensiveTotal } = await listTransactions(user.id);
         const lastEntryTransaction = getLastTransactionsDate(formattedTransactions, 'positive');
         const lastExpenseTransaction = getLastTransactionsDate(formattedTransactions, 'negative');
 
@@ -114,15 +116,15 @@ const Dashboard = () => {
                     <Header>
                         <UserContainer>
                             <UserInfo>
-                                <Photo source={{ uri: 'https://avatars.githubusercontent.com/u/12762300?v=4' }} />
+                                <Photo source={{ uri: user.photo }} />
 
                                 <User>
                                     <UserGreeting>Ola, </UserGreeting>
-                                    <UserName>Gustavo</UserName>
+                                    <UserName>{user.name}</UserName>
                                 </User>
                             </UserInfo>
 
-                            <LogoutButton onPress={() => { console.log("Logout") }}>
+                            <LogoutButton onPress={() => { signOut() }}>
                                 <Icon name="power" />
                             </LogoutButton>
                         </UserContainer>

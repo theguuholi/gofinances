@@ -12,6 +12,7 @@ import * as yup from "yup";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 const schema = yup.object().shape({
     name: yup.string().required("Nome é obrigatório"),
@@ -27,7 +28,8 @@ interface FormData {
 }
 
 const Register = () => {
-    const dataKey = "@gofinances:transactions";    
+    const { user } = useAuth();
+    const dataKey = "@gofinances:transactions_user:" + user.id;
     const [transactionType, setTransactionType] = useState("");
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
     const [category, setCategory] = useState({
@@ -86,7 +88,7 @@ const Register = () => {
                 name: "Categoria",
             });
             reset();
-            navigation.navigate("Listagem");
+            navigation.navigate("Listagem" as never);
         } catch (error) {
             console.log(error);
             Alert.alert("Não foi possível cadastrar");

@@ -1,20 +1,26 @@
 import { Container, Footer, FooterWrapper, Header, SignInTitle, Title, TitleWrapper } from "./styles";
-import React from "react";
-import { Alert, Text } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, Alert, Text } from "react-native";
 import SignInSocialButton from "../../components/SigninSocialButton";
 import { useAuth } from "../../hooks/auth";
+import { useTheme } from "styled-components";
 
 const SignIn = () => {
-    const { user, signInWithApple } = useAuth();
+    const { signInWithApple } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    const theme = useTheme();
 
     const handleSignInWithApple = async () => {
         console.log("handleSignInWithApple");
         try {
             console.log("signInWithApple");
-            await signInWithApple();
+            setIsLoading(true);
+            return await signInWithApple();
         } catch (error) {
             Alert.alert('Não foi possível conectar a conta Apple');
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -48,6 +54,8 @@ const SignIn = () => {
                         onPress={() => handleSignInWithApple()}
                     />
                 </FooterWrapper>
+
+                {isLoading && <ActivityIndicator color={theme.colors.shape} size="large" style={{ marginTop: 18 }} />}
             </Footer>
         </Container>
     )

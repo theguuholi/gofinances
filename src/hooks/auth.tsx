@@ -17,6 +17,8 @@ interface User {
 interface IAuthContextData {
     user: User;
     signInWithApple: () => Promise<void>;
+    signOut: () => Promise<void>;
+    userStorageLoading: boolean;
 }
 
 export const AuthContext = createContext({} as IAuthContextData);
@@ -49,9 +51,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         } catch (error) {
             console.log(error);
             throw error;
-        } finally {
-            setUserStorageLoading(false);
         }
+        setUserStorageLoading(false);
+
     }
 
     const loadUserStorageData = async () => {
@@ -62,11 +64,16 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUserStorageLoading(false);
     }
 
+    const signOut = async () => {
+        await AsyncStorage.removeItem(userStorageKey);
+        setUser({} as User);
+    }
+
     useEffect(() => { loadUserStorageData(); }, []);
 
 
     return (
-        <AuthContext.Provider value={{ user, signInWithApple }}>
+        <AuthContext.Provider value={{ user, signInWithApple, signOut, userStorageLoading }}>
             {children}
         </AuthContext.Provider>
     )
