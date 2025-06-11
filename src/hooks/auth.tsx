@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -23,6 +23,9 @@ export const AuthContext = createContext({} as IAuthContextData);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User>({} as User);
+    const userStorageKey = '@gofinances:user';
+    const [userStorageLoading, setUserStorageLoading] = useState(true);
+
 
     const signInWithApple = async () => {
         try {
@@ -31,23 +34,36 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             })
             console.log("Apple Auth", credential);
 
-            if(credential) {
+            if (credential) {
                 const userLogged = {
                     id: credential.user,
                     email: credential.email!,
                     name: credential.fullName!.givenName!,
-                    photo: undefined
+                    photo: `https://ui-avatars.com/api/?name=${credential.fullName?.givenName}&length=1`
                 }
 
                 setUser(userLogged);
-                await AsyncStorage.setItem('@gofinances:user', JSON.stringify(userLogged));
+                await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
 
             }
         } catch (error) {
             console.log(error);
             throw error;
+        } finally {
+            setUserStorageLoading(false);
         }
     }
+
+    const loadUserStorageData = async () => {
+        const userStoraged = await AsyncStorage.getItem(userStorageKey);
+        if (userStoraged) {
+            setUser(JSON.parse(userStoraged));
+        }
+        setUserStorageLoading(false);
+    }
+
+    useEffect(() => { loadUserStorageData(); }, []);
+
 
     return (
         <AuthContext.Provider value={{ user, signInWithApple }}>

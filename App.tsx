@@ -5,9 +5,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
-import SignIn from './src/Screens/SignIn';
 import { AuthProvider } from './src/hooks/auth';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Routes from './src/routes';
+import { StatusBar } from 'react-native';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -41,15 +42,10 @@ export default function App() {
           backgroundColor: theme.colors.background,
         }}>
 
+        <StatusBar barStyle="light-content" />
         <AuthProvider>
-          <SignIn />
+          <Routes />
         </AuthProvider>
-        {/*
-        <NavigationContainer>
-          <StatusBar barStyle="light-content" />
-          <AppRoutes />
-        </NavigationContainer>
-    */}
       </GestureHandlerRootView>
     </ThemeProvider >
   )
