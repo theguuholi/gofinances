@@ -7,6 +7,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/pt-BR'; // Import locale data for Brazilian Portuguese
 import SignIn from './src/Screens/SignIn';
 import { AuthProvider } from './src/hooks/auth';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync().catch(() => {
@@ -34,19 +35,22 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <SignIn />
-      </AuthProvider>
-      {/* <GestureHandlerRootView
+      <GestureHandlerRootView
         style={{
           flex: 1,
           backgroundColor: theme.colors.background,
         }}>
+
+        <AuthProvider>
+          <SignIn />
+        </AuthProvider>
+        {/*
         <NavigationContainer>
           <StatusBar barStyle="light-content" />
           <AppRoutes />
         </NavigationContainer>
-      </GestureHandlerRootView> */}
-    </ThemeProvider>
+    */}
+      </GestureHandlerRootView>
+    </ThemeProvider >
   )
 }

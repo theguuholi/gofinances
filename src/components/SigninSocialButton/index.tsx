@@ -8,7 +8,7 @@ interface Props extends RectButtonProps {
 
 const SignInSocialButton = ({ title, ...rest }: Props) => {
     return (
-        <Button>
+        <Button {...rest}>
             <Title>{title}</Title>
         </Button>
     )
