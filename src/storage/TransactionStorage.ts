@@ -36,8 +36,8 @@ const formatTransactions = (transactions: TransactionDTO[]) => {
 }
 
 
-export const listTransactions = async (): Promise<any> => {
-    const response = await AsyncStorage.getItem(TRANSACTIONS_STORAGE);
+export const listTransactions = async (userID: string): Promise<any> => {
+    const response = await AsyncStorage.getItem(TRANSACTIONS_STORAGE + userID);
     const transactionResponse = response ? JSON.parse(response) : [];
     return formatTransactions(transactionResponse);
 }
