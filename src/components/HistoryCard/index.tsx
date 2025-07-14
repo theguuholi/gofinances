@@ -1,4 +1,4 @@
-import { Amount, Container, Title } from "./styles";
+import { Amount, Container, Title } from './styles';
 
 interface Props {
   title: string;
@@ -6,12 +6,12 @@ interface Props {
   color: string;
 }
 
-const HistoryCard = ({title, amount, color}: Props) => {
+const HistoryCard = ({ title, amount, color }: Props) => {
   return (
     <Container color={color}>
-        <Title>{title}</Title>
-        <Amount>{amount}</Amount>
+      <Title>{title}</Title>
+      <Amount>{amount}</Amount>
     </Container>
   );
-}
+};
 export default HistoryCard;

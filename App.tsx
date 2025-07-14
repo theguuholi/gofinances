@@ -1,6 +1,11 @@
 import { ThemeProvider } from 'styled-components/native';
 import theme from './src/global/styles/theme';
-import { Poppins_400Regular, Poppins_500Medium, Poppins_700Bold, useFonts } from '@expo-google-fonts/poppins';
+import {
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_700Bold,
+  useFonts,
+} from '@expo-google-fonts/poppins';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'intl';
@@ -19,7 +24,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
-    Poppins_700Bold
+    Poppins_700Bold,
   });
   const { userStorageLoading } = useAuth();
 
@@ -41,13 +46,13 @@ export default function App() {
         style={{
           flex: 1,
           backgroundColor: theme.colors.background,
-        }}>
-
+        }}
+      >
         <StatusBar barStyle="light-content" />
         <AuthProvider>
           <Routes />
         </AuthProvider>
       </GestureHandlerRootView>
-    </ThemeProvider >
-  )
+    </ThemeProvider>
+  );
 }

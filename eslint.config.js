@@ -1,53 +1,11 @@
-import js from '@eslint/js';
-import typescript from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactNative from 'eslint-plugin-react-native';
-import prettier from 'eslint-plugin-prettier';
+import { defineConfig } from 'eslint/config';
+import expoConfig from 'eslint-config-expo/flat.js';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
 
-export default [
-  js.configs.recommended,
+export default defineConfig([
+  expoConfig,
+  prettierRecommended,
   {
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescript,
-      react,
-      'react-hooks': reactHooks,
-      'react-native': reactNative,
-      prettier,
-    },
-    rules: {
-      'prettier/prettier': 'error',
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-      'react-native/no-unused-styles': 'error',
-      'react-native/split-platform-components': 'error',
-      'react-native/no-inline-styles': 'warn',
-      'react-native/no-color-literals': 'warn',
-      'react-native/no-raw-text': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    env: {
-      'react-native/react-native': true,
-    },
+    ignores: ['dist/*'],
   },
-]; 
+]);

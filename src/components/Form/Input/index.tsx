@@ -1,14 +1,9 @@
-import { TextInputProps } from "react-native";
-import { Container } from "./styles";
-
+import { TextInputProps } from 'react-native';
+import { Container } from './styles';
 
 type Props = TextInputProps;
-const Input = ({...rest}: Props) => {
-    return (
-        <Container {...rest}>
-
-        </Container>
-    )
-}
+const Input = ({ ...rest }: Props) => {
+  return <Container {...rest}></Container>;
+};
 
 export default Input;

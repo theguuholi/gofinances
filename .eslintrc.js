@@ -4,6 +4,7 @@ module.exports = {
     '@react-native',
     '@typescript-eslint/recommended',
     'prettier',
+    'expo',
   ],
   parser: '@typescript-eslint/parser',
   plugins: [
@@ -35,4 +36,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}; 
+};
