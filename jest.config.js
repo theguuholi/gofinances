@@ -1,8 +1,7 @@
-module.exports = {
+export default {
   preset: 'jest-expo',
   setupFilesAfterEnv: [
     '@testing-library/jest-native/extend-expect',
-    '<rootDir>/src/__tests__/setup.ts',
   ],
   transformIgnorePatterns: [
     'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
@@ -27,7 +26,7 @@ module.exports = {
     '<rootDir>/src/**/*.{test,spec}.{ts,tsx}',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
 };
