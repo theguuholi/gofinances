@@ -7,5 +7,8 @@ export default defineConfig([
   prettierRecommended,
   {
     ignores: ['dist/*'],
+    rules: {
+      'import/no-named-as-default': 'off',
+    },
   },
 ]);

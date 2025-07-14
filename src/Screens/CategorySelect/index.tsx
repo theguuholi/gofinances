@@ -12,14 +12,14 @@ import {
 import { categories } from '../../utils/categories';
 import Button from '../../components/Form/Button';
 
-interface Category {
+interface CategoryItem {
   key: string;
   name: string;
 }
 
 interface Props {
-  category: Category;
-  setCategory: (category: Category) => void;
+  category: CategoryItem;
+  setCategory: (category: CategoryItem) => void;
   closeSelectCategory: () => void;
 }
 
@@ -28,7 +28,7 @@ const CategorySelect = ({
   category,
   setCategory,
 }: Props) => {
-  function handleCategorySelect(category: Category) {
+  function handleCategorySelect(category: CategoryItem) {
     setCategory(category);
     closeSelectCategory();
   }
