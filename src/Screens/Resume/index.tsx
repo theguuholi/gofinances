@@ -36,6 +36,7 @@ const Resume = () => {
   const { user } = useAuth();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [totalByCategory, setTotalByCategory] = useState<CategoryData[]>([]);
+  const bottomTabBarHeight = useBottomTabBarHeight();
 
   const handleMonthSelect = (action: 'next' | 'previous') => {
     setIsLoading(true);
@@ -125,7 +126,7 @@ const Resume = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingHorizontal: 24,
-            paddingBottom: useBottomTabBarHeight(),
+            paddingBottom: bottomTabBarHeight,
           }}
         >
           <MonthSelect>

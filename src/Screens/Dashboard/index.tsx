@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import HighlightCard from '../../components/HighlightCard';
 import TransactionCard, {
   TransactionCardData,
@@ -20,9 +20,7 @@ import {
   UserInfo,
   UserName,
 } from './style';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useTheme } from '@react-navigation/native';
-import { set } from 'react-hook-form';
 import { ActivityIndicator } from 'react-native';
 import { listTransactions } from '../../storage/TransactionStorage';
 import { TransactionDTO } from '../../dtos/TransactionDTO';
