@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-native';
 import { AuthProvider, useAuth } from './auth';
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -46,5 +47,22 @@ describe('Auth Hook', () => {
     expect(result.current.user.email).toBeDefined();
     expect(result.current.user.name).toBeDefined();
     expect(result.current.user.photo).toBeDefined();
+  });
+
+  it('user should not connect if cancel authentication', async () => {
+    jest.clearAllMocks();
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    // 1. open the screen to the user to sign in with Apple
+    // 2. return to the user type and params
+    // 3. fetch profile data from apple
+    await act(async () => {
+      await result.current.signInWithApple();
+    });
+
+    expect(result.current.user).toEqual({});
   });
 });
