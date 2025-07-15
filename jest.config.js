@@ -1,6 +1,7 @@
 export default {
   preset: 'jest-expo',
   setupFilesAfterEnv: [
+    '<rootDir>/jest.setup.js',
     '@testing-library/jest-native/extend-expect',
     'jest-styled-components',
   ],
