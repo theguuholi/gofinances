@@ -35,7 +35,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      console.log('Apple Auth', credential);
 
       if (credential) {
         const userLogged = {
@@ -49,7 +48,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
       }
     } catch (error) {
-      console.log(error);
       throw error;
     }
     setUserStorageLoading(false);
